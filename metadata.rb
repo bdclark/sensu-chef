@@ -13,13 +13,13 @@ depends "apt"
 depends "yum"
 
 # available @ http://supermarket.chef.io/cookbooks/windows
-depends "windows", ">= 1.8.8"
+suggests "windows", ">= 1.8.8"
 
 # available @ http://supermarket.chef.io/cookbooks/rabbitmq
-depends "rabbitmq", ">= 2.0.0"
+suggests "rabbitmq", ">= 2.0.0"
 
 # available @ http://supermarket.chef.io/cookbooks/redisio
-depends "redisio", ">= 1.7.0"
+suggests "redisio", ">= 1.7.0"
 
 # available @ https://supermarket.chef.io/cookbooks/chef-vault
 suggests "chef-vault", ">= 1.2.0"

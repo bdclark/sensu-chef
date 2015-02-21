@@ -12,6 +12,20 @@ An example wrapper cookbook can be found
 
 [How to Write Reusable Chef Cookbooks](http://bit.ly/10r993N)
 
+### IMPORTANT NOTE
+This cookbook has the ability to install/configure multiple services depending
+on use-case. Rather than having *all* nodes require *all* possible dependencies,
+this cookbook references some external cookbooks as `suggests` rather than
+`depends`:
+
+* Windows users will need to make sure the `windows` cookbook is uploaded
+* If using the `sensu::redis` recipe, the `redisio` cookbook must be uploaded
+* If using the `sensu::rabbitmq` recipe, the `rabbitmq` cookbook must be uploaded
+
+If your situation includes one of the above, please make certain the proper
+dependencies can be resolved, e.g. by listing them as a dependency in your
+wrapper cookbook(s).
+
 ## TESTING
 
 This cookbook comes with a Gemfile, Cheffile, and a Vagrantfile for
@@ -30,6 +44,7 @@ vagrant ssh
 
 * [APT](http://community.opscode.com/cookbooks/apt)
 * [YUM](http://community.opscode.com/cookbooks/yum)
+### Suggested Cookbooks (varies by use-case)
 * [Windows](http://community.opscode.com/cookbooks/windows)
 * [RabbitMQ](http://community.opscode.com/cookbooks/rabbitmq)
 * [RedisIO](http://community.opscode.com/cookbooks/redisio)
