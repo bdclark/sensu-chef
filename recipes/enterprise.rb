@@ -25,7 +25,7 @@ platform_version = node.platform_version.to_i
 data_bag_name = node.sensu.data_bag.name
 enterprise_item = node.sensu.data_bag.enterprise_item
 
-enterprise = Sensu::Helpers.data_bag_item(enterprise_item, true, data_bag_name)
+enterprise = Sensu::Helpers.config_item(node, enterprise_item, data_bag_name)
 
 credentials = enterprise["repository"]["credentials"]
 

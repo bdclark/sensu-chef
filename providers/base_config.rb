@@ -5,9 +5,9 @@ action :create do
   )
 
   data_bag_name = node.sensu.data_bag.name
-  config_item = node.sensu.data_bag.config_item
+  config_item_key = node.sensu.data_bag.config_item
 
-  config = Sensu::Helpers.data_bag_item(config_item, true, data_bag_name)
+  config = Sensu::Helpers.config_item(node, config_item_key, data_bag_name)
 
   if config
     definitions = Chef::Mixin::DeepMerge.merge(definitions, config.to_hash)
@@ -22,10 +22,10 @@ action :create do
   ].each do |service|
     next unless node.recipe?("sensu::#{service}_service")
 
-    service_data_bag_item = Sensu::Helpers.data_bag_item(service, true, data_bag_name)
+    service_config_item = Sensu::Helpers.config_item(node, service, data_bag_name)
 
-    if service_data_bag_item
-      service_config = Chef::Mixin::DeepMerge.merge(service_config, service_data_bag_item.to_hash)
+    if service_config_item
+      service_config = Chef::Mixin::DeepMerge.merge(service_config, service_config_item.to_hash)
     end
   end
 

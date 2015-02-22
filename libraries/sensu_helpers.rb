@@ -59,6 +59,18 @@ module Sensu
         missing_ok ? nil : raise(error)
       end
 
+      def config_item(node, item, data_bag_name="sensu")
+        bag_item = data_bag_item(item, true, data_bag_name)
+        sensu_state = node.run_state['sensu']
+        state_item =
+        if sensu_state && sensu_state.key?(item)
+          sensu_state[item] if sensu_state[item].is_a?(Hash)
+        end
+        if bag_item || state_item
+          Chef::Mixin::DeepMerge.merge(bag_item, state_item)
+        end
+      end
+
       def random_password(length=20, number=false, upper=false, lower=false, special=false)
         password = ""
         requiredOffset = 0
