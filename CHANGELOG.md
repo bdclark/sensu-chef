@@ -1,3 +1,34 @@
+## 2.9.0 - 2015-04-02
+
+### Features
+
+Bumped the default version of Sensu to 0.17.1-1.
+
+Updated the Linux recipe to use the updated YUM repository structure:
+`el/i386` and `el/x86_64`. The RHEL release directories have been linked,
+eg. `el/5/i386`.
+
+## 2.8.0 - 2015-03-17
+
+### Features
+
+Enable Sensu transport and Redis reconnect_on_error by default (true).
+This allows Sensu to recover from unexpected transport and Redis client
+errors. Connection loss always results in a reconnect, regardless of this
+setting.
+
+## 2.7.0 - 2015-03-17
+
+### Features
+
+Bumped the default version of Sensu to 0.17.0-1.
+
+The 0.17.0-1 MSI (Windows) has SSL/TLS support.
+
+### Fixes
+
+Sensu user and group attributes no longer Linux platform specific.
+
 ## 2.6.0 - 2015-02-18
 
 ### Features
