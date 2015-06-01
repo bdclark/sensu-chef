@@ -33,6 +33,14 @@ action :create do
     definitions = Chef::Mixin::DeepMerge.merge(definitions, service_config)
   end
 
+  if definitions['rabbitmq'] && definitions['rabbitmq']['host'].is_a?(Array)
+    rabbitmq_config = definitions.delete('rabbitmq')
+    definitions['rabbitmq'] = []
+    rabbitmq_config['host'].each do |host|
+      definitions['rabbitmq'] << rabbitmq_config.merge({ 'host' => host })
+    end
+  end
+
   f = sensu_json_file ::File.join(node.sensu.directory, "config.json") do
     content Sensu::Helpers.sanitize(definitions)
   end
