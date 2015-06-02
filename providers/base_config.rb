@@ -1,7 +1,7 @@
 action :create do
   definitions = Sensu::Helpers.select_attributes(
     node.sensu,
-    %w[rabbitmq redis api]
+    %w[transport rabbitmq redis api]
   )
 
   data_bag_name = node.sensu.data_bag.name
@@ -20,7 +20,10 @@ action :create do
     api
     server
   ].each do |service|
-    next unless node.recipe?("sensu::#{service}_service")
+    unless node.recipe?("sensu::#{service}_service") ||
+        node.recipe?("sensu::enterprise_service")
+      next
+    end
 
     service_data_bag_item = Sensu::Helpers.data_bag_item(service, true, data_bag_name)
 
