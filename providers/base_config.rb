@@ -20,7 +20,10 @@ action :create do
     api
     server
   ].each do |service|
-    next unless node.recipe?("sensu::#{service}_service")
+    unless node.recipe?("sensu::#{service}_service") ||
+        node.recipe?("sensu::enterprise_service")
+      next
+    end
 
     service_config_item = Sensu::Helpers.config_item(node, service, data_bag_name)
 
