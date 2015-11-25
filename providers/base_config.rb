@@ -1,11 +1,11 @@
 action :create do
   definitions = Sensu::Helpers.select_attributes(
-    node.sensu,
+    node["sensu"],
     %w[transport rabbitmq redis api]
   )
 
-  data_bag_name = node.sensu.data_bag.name
-  config_item_key = node.sensu.data_bag.config_item
+  data_bag_name = node["sensu"]["data_bag"]["name"]
+  config_item_key = node["sensu"]["data_bag"]["config_item"]
 
   config = Sensu::Helpers.config_item(node, config_item_key, data_bag_name)
 
@@ -44,7 +44,7 @@ action :create do
     end
   end
 
-  f = sensu_json_file ::File.join(node.sensu.directory, "config.json") do
+  f = sensu_json_file ::File.join(node["sensu"]["directory"], "config.json") do
     content Sensu::Helpers.sanitize(definitions)
   end
 

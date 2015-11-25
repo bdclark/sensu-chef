@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: sensu
-# Recipe:: api_service
+# Cookbook Name:: sensu-test
+# Recipe:: enterprise_dashboard
 #
-# Copyright 2014, Sonian Inc.
+# Copyright 2014, Heavy Water Operations, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,10 @@
 # limitations under the License.
 #
 
-sensu_service "sensu-api" do
-  init_style node["sensu"]["init_style"]
-  action [:enable, :start]
+include_recipe "sensu::enterprise_dashboard"
+
+# ServerSpec dependencies
+
+if platform?("ubuntu")
+  package "net-tools"
 end

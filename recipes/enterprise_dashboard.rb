@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: sensu
-# Recipe:: enterprise
+# Recipe:: enterprise_dashboard
 #
 # Copyright 2014, Heavy Water Operations, LLC.
 #
@@ -17,15 +17,13 @@
 # limitations under the License.
 #
 
-include_recipe "sensu"
-
 platform_family = node["platform_family"]
 platform_version = node["platform_version"].to_i
 
 data_bag_name = node["sensu"]["data_bag"]["name"]
 enterprise_item = node["sensu"]["data_bag"]["enterprise_item"]
 
-enterprise = Sensu::Helpers.config_item(node, enterprise_item, data_bag_name)
+enterprise = Sensu::Helpers.data_bag_item(enterprise_item, true, data_bag_name)
 
 credentials = enterprise["repository"]["credentials"]
 
@@ -43,19 +41,17 @@ when "debian"
     action :add
   end
 else
-  repo = yum_repository "sensu-enterprise" do
-    description "sensu enterprise"
+  repo = yum_repository "sensu-enterprise-dashboard" do
+    description "sensu enterprise dashboard"
     repo = node["sensu"]["enterprise"]["use_unstable_repo"] ? "yum-unstable" : "yum"
-    url "#{repository_url}/#{repo}/noarch/"
+    url "#{repository_url}/#{repo}/$basearch/"
     action :add
   end
   repo.gpgcheck(false) if repo.respond_to?(:gpgcheck)
 end
 
-package "sensu-enterprise" do
-  version node["sensu"]["enterprise"]["version"]
+package "sensu-enterprise-dashboard" do
+  version node["sensu"]["enterprise-dashboard"]["version"]
 end
 
-template "/etc/default/sensu-enterprise" do
-  source "sensu-enterprise.default.erb"
-end
+sensu_dashboard_config node.name
